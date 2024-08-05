@@ -28,12 +28,16 @@ public class VehicleController : MonoBehaviour
     [SerializeField] float GroundCheckRadiusSphere = 1f;
     [SerializeField] LayerMask whatIsGround;
 
-    public bool _grounded;
-    Rigidbody _rb;
+    [Header("Audio")]
+    [SerializeField] AudioClip _engineAudioClip;
+    private bool _grounded;
+    private Rigidbody _rb;
+    private AudioSource _audioSource;
 
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
     }
     private void FixedUpdate()
     {
@@ -81,6 +85,9 @@ public class VehicleController : MonoBehaviour
         UpdateWheel(frontLeft, frontLeftTransform);
         UpdateWheel(backRight, backRightTransform);
         UpdateWheel(backLeft, backLeftTransform);
+
+        //Play Sound
+        PlayEngineSoundGradually();
     }
 
     private void UpdateWheel(WheelCollider col, Transform trans)
@@ -93,5 +100,14 @@ public class VehicleController : MonoBehaviour
         //Set Wheel Transform State
         trans.position = Vector3.Lerp(trans.position, position, 2f);
         trans.rotation = Quaternion.Lerp(trans.rotation, rotation, 2f);
+    }
+    private void PlayEngineSoundGradually()
+    {
+        float verticalAxis = Input.GetAxis("Vertical");
+        _audioSource.clip = _engineAudioClip;
+        _audioSource.pitch = verticalAxis;
+        _audioSource.pitch = Mathf.Clamp(_audioSource.pitch, 0.9f, 1.1f);
+        _audioSource.volume = _rb.velocity.magnitude;
+        _audioSource.volume = Mathf.Clamp(_audioSource.volume, 0.1f, 0.5f);
     }
 }
