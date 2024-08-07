@@ -32,10 +32,12 @@ public class VehicleController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] AudioClip _engineAudioClip;
     private bool _grounded;
-    public bool _isReversing = false;
     private Rigidbody _rb;
     private AudioSource _audioSource;
     private bool once = false;
+
+    //Is reversing property
+    public bool isReversing;
 
     void Start()
     {
@@ -52,7 +54,7 @@ public class VehicleController : MonoBehaviour
 
         //Reversing
         if (Input.GetKeyDown(KeyCode.R) && _rb.velocity.magnitude <= ReverseSpeedTreshold)
-            _isReversing = !_isReversing;
+            isReversing = !isReversing;
 
         if (_grounded)
         {
@@ -69,7 +71,7 @@ public class VehicleController : MonoBehaviour
         currentAcceleration = Acceleration * verticalAxis;
 
         //Check if reversing and reverse acceleration
-        if (_isReversing && once)
+        if (isReversing && once)
         {
             currentAcceleration = Acceleration * verticalAxis * -1f;
             once = false;
