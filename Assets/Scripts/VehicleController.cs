@@ -53,7 +53,7 @@ public class VehicleController : MonoBehaviour
             _grounded = false;
 
         //Reversing
-        if (Input.GetKeyDown(KeyCode.R) && _rb.velocity.magnitude <= ReverseSpeedTreshold)
+        if (Input.GetKeyDown(KeyCode.R))
             isReversing = !isReversing;
 
         if (_grounded)
@@ -83,7 +83,7 @@ public class VehicleController : MonoBehaviour
             currentBreakForce = BreakForce;
         else
             currentBreakForce = 0f;
-        Debug.Log(_rb.velocity.magnitude);
+
         //Apply acceleration to front wheels
         ApplyAcceleration();
 
