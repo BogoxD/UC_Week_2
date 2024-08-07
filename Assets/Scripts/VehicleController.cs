@@ -8,6 +8,7 @@ public class VehicleController : MonoBehaviour
     public float Acceleration = 500f;
     public float BreakForce = 300f;
     public float MaxTurnAngle = 15f;
+    public float ReverseSpeedTreshold = 0.2f;
 
     private float currentAcceleration = 0f;
     private float currentBreakForce = 0f;
@@ -31,8 +32,10 @@ public class VehicleController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] AudioClip _engineAudioClip;
     private bool _grounded;
+    public bool _isReversing = false;
     private Rigidbody _rb;
     private AudioSource _audioSource;
+    private bool once = false;
 
     void Start()
     {
@@ -41,10 +44,15 @@ public class VehicleController : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        //Ground Check
         if (Physics.CheckSphere(transform.position, GroundCheckRadiusSphere, whatIsGround))
             _grounded = true;
         else
             _grounded = false;
+
+        //Reversing
+        if (Input.GetKeyDown(KeyCode.R) && _rb.velocity.magnitude <= ReverseSpeedTreshold)
+            _isReversing = !_isReversing;
 
         if (_grounded)
         {
@@ -60,20 +68,25 @@ public class VehicleController : MonoBehaviour
         //Apply acceleration
         currentAcceleration = Acceleration * verticalAxis;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        //Check if reversing and reverse acceleration
+        if (_isReversing && once)
+        {
+            currentAcceleration = Acceleration * verticalAxis * -1f;
+            once = false;
+        }
+        else
+            once = true;
+
+        if (Input.GetKey(KeyCode.Space) || verticalAxis < 0)
             currentBreakForce = BreakForce;
         else
             currentBreakForce = 0f;
-
+        Debug.Log(_rb.velocity.magnitude);
         //Apply acceleration to front wheels
-        frontRight.motorTorque = currentAcceleration;
-        frontLeft.motorTorque = currentAcceleration;
+        ApplyAcceleration();
 
         //Apply break force to all wheels
-        frontRight.brakeTorque = currentBreakForce;
-        frontLeft.brakeTorque = currentBreakForce;
-        backRight.brakeTorque = currentBreakForce;
-        backLeft.brakeTorque = currentBreakForce;
+        ApplyBreak();
 
         //Car Steering
         currentTurnAngle = MaxTurnAngle * horizontalAxis;
@@ -89,7 +102,20 @@ public class VehicleController : MonoBehaviour
         //Play Sound
         PlayEngineSoundGradually();
     }
-
+    private void ApplyAcceleration()
+    {
+        //Apply acceleration to front wheels
+        frontRight.motorTorque = currentAcceleration;
+        frontLeft.motorTorque = currentAcceleration;
+    }
+    private void ApplyBreak()
+    {
+        //Apply break force to all wheels
+        frontRight.brakeTorque = currentBreakForce;
+        frontLeft.brakeTorque = currentBreakForce;
+        backRight.brakeTorque = currentBreakForce;
+        backLeft.brakeTorque = currentBreakForce;
+    }
     private void UpdateWheel(WheelCollider col, Transform trans)
     {
         //Get Wheel Colider State

@@ -6,7 +6,8 @@ using UnityEngine;
 public class WeaponSystem : MonoBehaviour
 {
     [Header("Shooting")]
-    public float bulletSpeed = 5f;
+    public int Damage = 25;
+    public float AttackRange = 200f;
     public float upwardForce = 2f;
     public float reloadingTime = 2f;
     public float timeBetweenShots = 0.1f;
@@ -16,7 +17,6 @@ public class WeaponSystem : MonoBehaviour
     [Header("References")]
     [SerializeField] LayerMask whatIsImpact;
     [SerializeField] Transform firePoint;
-    [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject muzzleFlashPrefab;
     [SerializeField] GameObject impactPrefab;
 
@@ -36,10 +36,16 @@ public class WeaponSystem : MonoBehaviour
     void Update()
     {
         //If gun is full auto 
-        if (fullAuto) { shooting = Input.GetMouseButton(0);
-            currentReloadingTime = 0;}
-        else { shooting = Input.GetMouseButtonDown(0);
-            currentReloadingTime = reloadingTime;}
+        if (fullAuto)
+        {
+            shooting = Input.GetMouseButton(0);
+            currentReloadingTime = 0;
+        }
+        else
+        {
+            shooting = Input.GetMouseButtonDown(0);
+            currentReloadingTime = reloadingTime;
+        }
 
         if (shooting && isReadyToShoot)
         {
@@ -55,21 +61,23 @@ public class WeaponSystem : MonoBehaviour
         isReadyToShoot = false;
 
         //Instantiate bullet and effects
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, bulletPrefab.transform.rotation);
         muzzleFlashEffect = Instantiate(muzzleFlashPrefab, firePoint.position, Quaternion.identity);
 
         //Cast ray to aim and play impact effect
-        if(Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, 50, whatIsImpact))
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, AttackRange, whatIsImpact))
         {
             Instantiate(impactPrefab, hit.point, Quaternion.identity);
+
+            //damage enemies
+            if (hit.collider.TryGetComponent(out EnemyCar car))
+            {
+                car.TakeDamage(Damage);
+            }
+
         }
 
         //Change direction and add force to the bullet
-        bullet.transform.forward = firePoint.forward;
         muzzleFlashEffect.transform.forward = firePoint.forward;
-
-        bullet.GetComponent<Rigidbody>().AddForce(firePoint.transform.forward * bulletSpeed, ForceMode.Impulse);
-        bullet.GetComponent<Rigidbody>().AddForce(bullet.transform.up * upwardForce, ForceMode.Force);
 
         //Add force to tank/vehicle
         rb.AddForce(-firePoint.forward * recoilForce, ForceMode.Impulse);
@@ -91,7 +99,6 @@ public class WeaponSystem : MonoBehaviour
 
         yield return new WaitForSeconds(timeBetweenShots);
 
-        muzzleFlashEffect.SetActive(false);
         isReadyToShoot = true;
     }
 }
