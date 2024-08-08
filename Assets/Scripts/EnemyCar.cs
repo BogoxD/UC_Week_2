@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class EnemyCar : MonoBehaviour
 {
-    [Header("Health")]
+    [Header("EnemyCar")]
     public int MaxHealth = 100;
+    public float Speed = 5f;
+
+    [Header("Waypoints")]
+    [SerializeField] Transform[] waypoints;
+    [SerializeField] float wayPointOffset = 1.5f;
 
     [Header("Effects")]
     [SerializeField] GameObject explosionEffect;
@@ -15,6 +20,7 @@ public class EnemyCar : MonoBehaviour
     [SerializeField] AudioClip explosionAudio;
 
     private int _currentHealth;
+    private int _pathIterrator = 0;
     private bool _alive = true;
     private Material _material;
     private WeaponSystem _playerWeaponSystem;
@@ -29,6 +35,36 @@ public class EnemyCar : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _playerWeaponSystem = FindObjectOfType<WeaponSystem>();
         _material = GetComponent<Material>();
+
+    }
+    private void FixedUpdate()
+    {
+        //start moving
+        MoveTowards(waypoints);
+    }
+    private void MoveTowards(Transform[] waypointsArray)
+    {
+        if (_pathIterrator == waypointsArray.Length)
+        {
+            _pathIterrator = 0;
+            //look towards new point
+            transform.LookAt(Vector3.Slerp(transform.forward, waypointsArray[_pathIterrator].position, 5f));
+        }
+        else if (_pathIterrator < waypointsArray.Length)
+        {
+            //move car towards point
+            transform.position = Vector3.MoveTowards(transform.position, waypointsArray[_pathIterrator].position, Speed * Time.deltaTime);
+
+            if (wayPointOffset > Vector3.Distance(transform.position, waypointsArray[_pathIterrator].position))
+            {
+                //increment path iterrator
+                _pathIterrator++;
+
+                //look towards new point
+                transform.LookAt(Vector3.Slerp(transform.forward, waypointsArray[_pathIterrator].position, 5f));
+            }
+        }
+
     }
     public void TakeDamage(int ammount)
     {
@@ -38,7 +74,8 @@ public class EnemyCar : MonoBehaviour
         if (_currentHealth <= 0 && _alive)
         {
             _alive = false;
-
+            //change speed to 0
+            Speed = 0f;
             //add upward force to rigidbody
             _rb.AddForce(transform.up * 2f, ForceMode.Impulse);
 
@@ -46,7 +83,6 @@ public class EnemyCar : MonoBehaviour
             StartCoroutine(ApplyEffectsWithDelay());
         }
     }
-
     IEnumerator ApplyEffectsWithDelay()
     {
         //instantiate explosion effect
