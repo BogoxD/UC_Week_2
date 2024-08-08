@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class VehicleController : MonoBehaviour
 {
+    [Header("Player")]
+    public int playerIndex;
+
     [Header("Vehicle Movement")]
     public float Acceleration = 500f;
     public float BreakForce = 300f;
@@ -64,8 +67,8 @@ public class VehicleController : MonoBehaviour
     private void OnMovement()
     {
         //Get front/reverse and left/right input axis
-        float verticalAxis = Input.GetAxis("Vertical");
-        float horizontalAxis = Input.GetAxis("Horizontal");
+        float verticalAxis = Input.GetAxis("Vertical" + playerIndex);
+        float horizontalAxis = Input.GetAxis("Horizontal" + playerIndex);
 
         //Apply acceleration
         currentAcceleration = Acceleration * verticalAxis;

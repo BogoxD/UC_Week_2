@@ -12408,6 +12408,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1846179859328875200, guid: 7227e0b37c53a214ba8f663a7f57befe,
+        type: 3}
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2063719184541214345, guid: 7227e0b37c53a214ba8f663a7f57befe,
         type: 3}
       propertyPath: m_Enabled
