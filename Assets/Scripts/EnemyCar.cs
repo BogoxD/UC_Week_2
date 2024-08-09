@@ -7,6 +7,8 @@ public class EnemyCar : MonoBehaviour
     [Header("EnemyCar")]
     public int MaxHealth = 100;
     public float Speed = 5f;
+    public float AttackDistance = 30f;
+    public float AttackFov = 45f;
 
     [Header("Waypoints")]
     [SerializeField] Transform[] waypoints;
@@ -39,8 +41,12 @@ public class EnemyCar : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //start moving
-        MoveTowards(waypoints);
+        //If this GO is a police car, attack the player when in range
+        if (AttackDistance >= Vector3.Distance(transform.position, _playerWeaponSystem.gameObject.transform.position)
+            && TryGetComponent<Police_Light_Anim>(out Police_Light_Anim policeCar))
+            MoveTowards(_playerWeaponSystem.gameObject.transform);
+        else
+            MoveTowards(waypoints);
     }
     private void MoveTowards(Transform[] waypointsArray)
     {
@@ -65,6 +71,13 @@ public class EnemyCar : MonoBehaviour
             }
         }
 
+    }
+    private void MoveTowards(Transform pointTrans)
+    {
+        //move car towards point
+        transform.position = Vector3.MoveTowards(transform.position, pointTrans.position, 5f * Time.deltaTime) - new Vector3(0, pointTrans.position.y, 0);
+        //look towards new point
+        transform.LookAt(Vector3.Slerp(transform.forward, pointTrans.position, 5f));
     }
     public void TakeDamage(int ammount)
     {
