@@ -1201,10 +1201,20 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[1]
       value: 
       objectReference: {fileID: 751813377}
+    - target: {fileID: 3877327882167480064, guid: 4983395147210b3469deaf404bd54cb1,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3877327882167480064, guid: 4983395147210b3469deaf404bd54cb1,
+        type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4019633284767987610, guid: 4983395147210b3469deaf404bd54cb1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 99.72964
+      value: 106.32
       objectReference: {fileID: 0}
     - target: {fileID: 4019633284767987610, guid: 4983395147210b3469deaf404bd54cb1,
         type: 3}
@@ -1214,7 +1224,7 @@ PrefabInstance:
     - target: {fileID: 4019633284767987610, guid: 4983395147210b3469deaf404bd54cb1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.017891
+      value: -3.24
       objectReference: {fileID: 0}
     - target: {fileID: 4019633284767987610, guid: 4983395147210b3469deaf404bd54cb1,
         type: 3}
@@ -2547,7 +2557,7 @@ PrefabInstance:
     - target: {fileID: 6939748230793845080, guid: 7227e0b37c53a214ba8f663a7f57befe,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.8234062
+      value: 0.85575354
       objectReference: {fileID: 0}
     - target: {fileID: 6939748230793845080, guid: 7227e0b37c53a214ba8f663a7f57befe,
         type: 3}
@@ -2556,8 +2566,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6939748230793845080, guid: 7227e0b37c53a214ba8f663a7f57befe,
         type: 3}
+      propertyPath: m_Center.y
+      value: 2.142193
+      objectReference: {fileID: 0}
+    - target: {fileID: 6939748230793845080, guid: 7227e0b37c53a214ba8f663a7f57befe,
+        type: 3}
       propertyPath: m_Center.z
       value: 0.12723136
+      objectReference: {fileID: 0}
+    - target: {fileID: 6939748230793845080, guid: 7227e0b37c53a214ba8f663a7f57befe,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6980883211146017254, guid: 7227e0b37c53a214ba8f663a7f57befe,
         type: 3}

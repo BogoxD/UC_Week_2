@@ -75,7 +75,7 @@ public class EnemyCar : MonoBehaviour
     private void MoveTowards(Transform pointTrans)
     {
         //move car towards point
-        transform.position = Vector3.MoveTowards(transform.position, pointTrans.position, 5f * Time.deltaTime) - new Vector3(0, pointTrans.position.y, 0);
+        transform.position = Vector3.MoveTowards(transform.position, pointTrans.position, 5f * Time.deltaTime) - new Vector3(0, -pointTrans.position.y, 0);
         //look towards new point
         transform.LookAt(Vector3.Slerp(transform.forward, pointTrans.position, 5f));
     }
