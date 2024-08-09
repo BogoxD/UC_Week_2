@@ -1201,16 +1201,6 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[1]
       value: 
       objectReference: {fileID: 751813377}
-    - target: {fileID: 3877327882167480064, guid: 4983395147210b3469deaf404bd54cb1,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3877327882167480064, guid: 4983395147210b3469deaf404bd54cb1,
-        type: 3}
-      propertyPath: m_ProvidesContacts
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4019633284767987610, guid: 4983395147210b3469deaf404bd54cb1,
         type: 3}
       propertyPath: m_LocalPosition.x

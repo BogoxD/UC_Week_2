@@ -635,7 +635,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8541638714319275844}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.000000026692542, y: -0.7071068, z: -0.000000026692542, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 40.92379, y: 1.3118056, z: 4.0488853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -643,7 +643,7 @@ Transform:
   - {fileID: 1814263069042067356}
   - {fileID: 8245727851567459588}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!33 &5199157585967461280
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -757,7 +757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   Speed: 5
-  AttackDistance: 20
+  AttackDistance: 100
   AttackFov: 45
   waypoints:
   - {fileID: 0}
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde3a9455093f442b6ff61dfc480a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightFlicker2: 0
+  LightFlicker2: 1
 --- !u!82 &3285774783311186780
 AudioSource:
   m_ObjectHideFlags: 0

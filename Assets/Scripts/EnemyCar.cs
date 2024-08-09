@@ -74,10 +74,16 @@ public class EnemyCar : MonoBehaviour
     }
     private void MoveTowards(Transform pointTrans)
     {
-        //move car towards point
-        transform.position = Vector3.MoveTowards(transform.position, pointTrans.position, 5f * Time.deltaTime) - new Vector3(0, -pointTrans.position.y, 0);
-        //look towards new point
-        transform.LookAt(Vector3.Slerp(transform.forward, pointTrans.position, 5f));
+        //moving point with same height
+        Vector3 movingPointWithoutY = new Vector3(pointTrans.position.x, transform.position.y, pointTrans.position.z);
+
+        if (Speed != 0)
+        {
+            //move car towards point
+            transform.position = Vector3.MoveTowards(transform.position, movingPointWithoutY, Speed * Time.deltaTime);
+            //look towards new point
+            transform.LookAt(Vector3.Slerp(transform.forward, movingPointWithoutY, Speed));
+        }
     }
     public void TakeDamage(int ammount)
     {
