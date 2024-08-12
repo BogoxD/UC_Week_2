@@ -22,7 +22,7 @@ public class Turret : MonoBehaviour
         if (plane.Raycast(ray, out distance))
         {
             Vector3 hitPoint = ray.GetPoint(distance);
-
+            
             transform.LookAt(hitPoint);
         }
 

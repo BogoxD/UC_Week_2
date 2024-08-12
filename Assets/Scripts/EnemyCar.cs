@@ -8,7 +8,6 @@ public class EnemyCar : MonoBehaviour
     public int MaxHealth = 100;
     public float Speed = 5f;
     public float AttackDistance = 30f;
-    public float AttackFov = 45f;
 
     [Header("Waypoints")]
     [SerializeField] Transform[] waypoints;
